@@ -1,1 +1,3 @@
-<Solution />
+<Solution>
+  <Project Path="LoanService.Domain/LoanService.Domain.csproj" />
+</Solution>
