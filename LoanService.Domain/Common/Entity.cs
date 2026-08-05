@@ -1,0 +1,21 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace LoanService.Domain.Common
+{
+    public abstract class Entity
+    {
+        public Guid Id { get; protected set;  }
+
+        protected Entity(Guid id)
+        {
+            if(id == Guid.Empty)
+                throw new ArgumentException("Идентификатор не может быть пустым.", nameof(id));
+
+            Id = id;
+        }
+
+        protected Entity() { }
+    }
+}
