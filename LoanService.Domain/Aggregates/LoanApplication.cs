@@ -1,8 +1,5 @@
 ﻿using LoanService.Domain.Common;
 using LoanService.Domain.ValueObjects;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace LoanService.Domain.Aggregates
 {

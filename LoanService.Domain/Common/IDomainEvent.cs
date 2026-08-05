@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace LoanService.Domain.Common
+﻿namespace LoanService.Domain.Common
 {
     public interface IDomainEvent
     {
