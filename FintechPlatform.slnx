@@ -1,4 +1,5 @@
 <Solution>
+  <Project Path="LoanService.API/LoanService.API.csproj" Id="63fb571f-a1eb-427e-afc9-1130371d8f43" />
   <Project Path="LoanService.Application/LoanService.Application.csproj" Id="f06981b0-81c4-48a9-a572-a281b034495c" />
   <Project Path="LoanService.Domain/LoanService.Domain.csproj" />
 </Solution>
