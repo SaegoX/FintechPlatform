@@ -42,7 +42,7 @@ namespace LoanService.Domain.Aggregates
             Status = LoanStatus.Submitted;
         }
 
-        private readonly List<RepaymentPeriod> _repaymentSchedule = new();
+        private readonly List<RepaymentPeriod> _repaymentSchedule = [];
         public IReadOnlyCollection<RepaymentPeriod> RepaymentSchedule => _repaymentSchedule.AsReadOnly();
 
         public void Approve()
