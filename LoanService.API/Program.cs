@@ -1,6 +1,8 @@
-using LoanService.API.Infrastructure;
 using LoanService.Application.Common;
 using LoanService.Application.UseCases.LoanApplications;
+using LoanService.Infrastructure;
+using LoanService.Infrastructure.Repositories;
+using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 using System.Globalization;
 
@@ -23,8 +25,13 @@ namespace LoanService.API
 
             builder.Services.AddOpenApi();
 
+            var connectionString = builder.Configuration.GetConnectionString("PostgresConnection");
 
-            builder.Services.AddSingleton<ILoanRepository, InMemoryLoanRepository>();
+            builder.Services.AddDbContext<LoanDbContext>(options =>
+            options.UseNpgsql(connectionString));
+
+            builder.Services.AddScoped<ILoanRepository, PostgresLoanRepository>();
+
             builder.Services.AddMediatR(cfg =>
             cfg.RegisterServicesFromAssembly(typeof(CreateLoanApplicationCommand).Assembly));
 

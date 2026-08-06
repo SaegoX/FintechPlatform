@@ -8,10 +8,7 @@ namespace LoanService.Application.UseCases.LoanApplications
     {
         private readonly ILoanRepository _loanRepository;
 
-        public CreateLoanApplicationCommandHandler(ILoanRepository loanRepository)
-        {
-            _loanRepository = loanRepository;
-        }
+        public CreateLoanApplicationCommandHandler(ILoanRepository loanRepository) => _loanRepository = loanRepository;
 
         public async Task<Guid> Handle(CreateLoanApplicationCommand request, CancellationToken cancellationToken)
         {
