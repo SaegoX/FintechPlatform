@@ -5,6 +5,7 @@
   </Folder>
   <Project Path="LoanService.API/LoanService.API.csproj" Id="63fb571f-a1eb-427e-afc9-1130371d8f43" />
   <Project Path="LoanService.Application/LoanService.Application.csproj" Id="f06981b0-81c4-48a9-a572-a281b034495c" />
+  <Project Path="LoanService.Domain.Tests/LoanService.Domain.Tests.csproj" Id="a9b6e0bb-268e-4a37-bad3-c764da95ef1e" />
   <Project Path="LoanService.Domain/LoanService.Domain.csproj" />
   <Project Path="LoanService.Infrastructure/LoanService.Infrastructure.csproj" Id="956b365b-3f5d-4d4c-aa5b-00c860cd56ed" />
 </Solution>
