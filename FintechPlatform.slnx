@@ -12,4 +12,5 @@
   <Project Path="E:/Programms/Visual Studio 2026/Visual Studio Projects/FintechPlatform/LoanService.Domain.Tests/LoanService.Domain.Tests.csproj" Id="a9b6e0bb-268e-4a37-bad3-c764da95ef1e" />
   <Project Path="E:/Programms/Visual Studio 2026/Visual Studio Projects/FintechPlatform/LoanService.Domain/LoanService.Domain.csproj" />
   <Project Path="E:/Programms/Visual Studio 2026/Visual Studio Projects/FintechPlatform/LoanService.Infrastructure/LoanService.Infrastructure.csproj" Id="956b365b-3f5d-4d4c-aa5b-00c860cd56ed" />
+  <Project Path="FintechPlatform.Contracts/FintechPlatform.Contracts.csproj" Id="db6c3fba-31ee-4e15-aa0b-0eee774e2bd4" />
 </Solution>

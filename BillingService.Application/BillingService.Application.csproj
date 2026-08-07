@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BillingService.Domain\BillingService.Domain.csproj" />
+    <ProjectReference Include="..\FintechPlatform.Contracts\FintechPlatform.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

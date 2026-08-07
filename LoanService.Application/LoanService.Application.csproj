@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FintechPlatform.Contracts\FintechPlatform.Contracts.csproj" />
     <ProjectReference Include="..\LoanService.Domain\LoanService.Domain.csproj" />
   </ItemGroup>
 
