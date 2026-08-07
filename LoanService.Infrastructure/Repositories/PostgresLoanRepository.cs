@@ -26,5 +26,10 @@ namespace LoanService.Infrastructure.Repositories
                 .Include(l => l.RepaymentSchedule)
                 .FirstOrDefaultAsync(l => l.Id == id, cancellationToken);
         }
+
+        public async Task UpdateAsync(LoanApplication loanApplication, CancellationToken cancellationToken)
+        {
+            await _context.SaveChangesAsync(cancellationToken);
+        }
     }
 }

@@ -10,7 +10,7 @@ namespace LoanService.API
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
             CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.InvariantCulture;
@@ -47,7 +47,22 @@ namespace LoanService.API
             app.UseAuthorization();
             app.MapControllers();
 
-            app.Run();
+            using (var scope = app.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                try
+                {
+                    var context = services.GetRequiredService<LoanDbContext>();
+                    await context.Database.MigrateAsync();
+                }
+                catch (Exception ex)
+                {
+                    var logger = services.GetRequiredService<ILogger<Program>>();
+                    logger.LogError(ex, "Произошла ошибка при автоматическом накате миграций на Postgres.");
+                }
+
+                app.Run();
+            }
         }
     }
 }

@@ -7,5 +7,7 @@ namespace LoanService.Application.Common
         Task AddAsync(LoanApplication loanApplication, CancellationToken cancellationToken);
 
         Task<LoanApplication?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
+
+        Task UpdateAsync(LoanApplication loanApplication, CancellationToken cancellationToken);
     }
 }
