@@ -5,6 +5,7 @@ using LoanService.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 using System.Globalization;
+using MassTransit;
 
 namespace LoanService.API
 {
@@ -34,6 +35,18 @@ namespace LoanService.API
 
             builder.Services.AddMediatR(cfg =>
             cfg.RegisterServicesFromAssembly(typeof(CreateLoanApplicationCommand).Assembly));
+
+            builder.Services.AddMassTransit(x =>
+            {
+                x.UsingRabbitMq((context, cfg) =>
+                {
+                    cfg.Host("rabbitmq", "/", h =>
+                    {
+                        h.Username("fintech_rabbit");
+                        h.Password("12356789");
+                    });
+                });
+            });
 
             var app = builder.Build();
 

@@ -7,26 +7,43 @@ services:
     ports:
       - "7109:8080"
     environment:
-      - ConnectionStrings_PostgresConnection=${DB_CONNECTION_STRING}
+      - ConnectionStrings__PostgresConnection=${LOAN_DB_CONNECTION_STRING}
       - ASPNETCORE_ENVIRONMENT=Development
     depends_on:
-      db:
+      loan_db:
         condition: service_healthy
 
-  db:
+  loan_db:
     image: postgres:16-alpine
     restart: always
     environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_LOAN_DB}
+      POSTGRES_USER: ${POSTGRES_LOAN_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_LOAN_PASSWORD}
     ports:
-      - "${POSTGRES_PORT}:5432"
+      - "${POSTGRES_LOAN_PORT}:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - loan_postgres_data:/var/lib/postgresql/data
 
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_LOAN_USER} -d ${POSTGRES_LOAN_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  billing_db:
+    image: postgres:16-alpine
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_BILLING_DB}
+      POSTGRES_USER: ${POSTGRES_BILLING_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_BILLING_PASSWORD}
+    ports:
+      - "${POSTGRES_BILLING_PORT}:5432"
+    volumes:
+      - billing_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_BILLING_USER} -d ${POSTGRES_BILLING_DB}"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -49,4 +66,5 @@ services:
 
 
 volumes:
-  postgres_data:  
+  loan_postgres_data:  
+  billing_postgres_data:

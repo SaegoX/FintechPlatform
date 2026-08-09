@@ -1,19 +1,19 @@
-﻿using LoanService.Application.Common;
+﻿using FintechPlatform.Contracts;
+using LoanService.Application.Common;
+using MassTransit;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace LoanService.Application.UseCases.LoanApplications
 {
     public class ApproveLoanApplicationCommandHandler : IRequestHandler<ApproveLoanApplicationCommand>
     {
         private readonly ILoanRepository _loanRepository;
+        private readonly IPublishEndpoint _publishEndpoint;
 
-        public ApproveLoanApplicationCommandHandler(ILoanRepository
-            loanRepository)
+        public ApproveLoanApplicationCommandHandler(ILoanRepository loanRepository, IPublishEndpoint publishEndpoint)
         {
             _loanRepository = loanRepository;
+            _publishEndpoint = publishEndpoint;
         }
 
         public async Task Handle(ApproveLoanApplicationCommand request, CancellationToken cancellationToken)
@@ -24,6 +24,16 @@ namespace LoanService.Application.UseCases.LoanApplications
             loanApplication.Approve();
 
             await _loanRepository.UpdateAsync(loanApplication, cancellationToken);
+
+            var integrationEvent = new LoanApprovedIntegrationEvent(
+                loanApplicationId: loanApplication.Id,
+                borrowerId: loanApplication.BorrowerId,
+                amount: loanApplication.Amount,
+                interestRate: loanApplication.InterestRate,
+                termInMonths: loanApplication.TermInMonths
+                );
+
+            await _publishEndpoint.Publish(integrationEvent, cancellationToken);
         }
     }
 }

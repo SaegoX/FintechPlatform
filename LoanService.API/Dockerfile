@@ -5,11 +5,11 @@ COPY ["LoanService.API/LoanService.API.csproj", "LoanService.API/"]
 COPY ["LoanService.Application/LoanService.Application.csproj", "LoanService.Application/"]
 COPY ["LoanService.Domain/LoanService.Domain.csproj", "LoanService.Domain/"]
 COPY ["LoanService.Infrastructure/LoanService.Infrastructure.csproj", "LoanService.Infrastructure/"]
+COPY ["FintechPlatform.Contracts/FintechPlatform.Contracts.csproj", "FintechPlatform.Contracts/"]
 
 
 RUN dotnet restore "LoanService.API/LoanService.API.csproj"
 
-# Копируем весь остальной код
 COPY . .
 
 WORKDIR "/src/LoanService.API"

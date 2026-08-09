@@ -7,8 +7,7 @@ namespace BillingService.API
             var builder = WebApplication.CreateBuilder(args);
 
 
-
-            app.Run();
+            //app.Run();
         }
     }
 }
