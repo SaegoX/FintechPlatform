@@ -1,11 +1,12 @@
 using LoanService.Application.Common;
 using LoanService.Application.UseCases.LoanApplications;
 using LoanService.Infrastructure;
+using LoanService.Infrastructure.Messaging;
 using LoanService.Infrastructure.Repositories;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 using System.Globalization;
-using MassTransit;
 
 namespace LoanService.API
 {
@@ -31,6 +32,7 @@ namespace LoanService.API
             builder.Services.AddDbContext<LoanDbContext>(options =>
             options.UseNpgsql(connectionString));
 
+            builder.Services.AddScoped<IEventPublisher, MassTransitEventPublisher>();
             builder.Services.AddScoped<ILoanRepository, PostgresLoanRepository>();
 
             builder.Services.AddMediatR(cfg =>
