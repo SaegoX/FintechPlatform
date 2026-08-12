@@ -1,4 +1,5 @@
 using BillingService.Application.Common;
+using BillingService.Application.Consumers;
 using BillingService.Infrastructure;
 using BillingService.Infrastructure.Messaging;
 using BillingService.Infrastructure.Repositories;
@@ -39,7 +40,7 @@ namespace BillingService.API
                     {
                         h.Username("fintech_rabbit");
                         h.Password("12356789");
-                    })
+                    });
 
                     cfg.ReceiveEndpoint("billing-loan-approved-queue", e =>
                     {

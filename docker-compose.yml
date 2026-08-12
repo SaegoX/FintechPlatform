@@ -23,8 +23,7 @@ services:
     ports:
       - "${POSTGRES_LOAN_PORT}:5432"
     volumes:
-      - loan_postgres_data:/var/lib/postgresql/data
-
+      - loan_postgres_data:/var/lib/postgresql/
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_LOAN_USER} -d ${POSTGRES_LOAN_DB}"]
       interval: 5s
