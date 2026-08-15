@@ -18,7 +18,7 @@ namespace BillingService.Infrastructure.Migrations
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     user_id = table.Column<Guid>(type: "uuid", nullable: false),
                     balance = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
-                    numeric182 = table.Column<decimal>(name: "numeric(18,2)", type: "numeric", nullable: false),
+                    blocked_balance = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
                     currency = table.Column<string>(type: "character varying(3)", maxLength: 3, nullable: false)
                 },
                 constraints: table =>

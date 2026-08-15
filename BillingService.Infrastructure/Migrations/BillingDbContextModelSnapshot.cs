@@ -34,8 +34,8 @@ namespace BillingService.Infrastructure.Migrations
                         .HasColumnName("balance");
 
                     b.Property<decimal>("BlockedBalance")
-                        .HasColumnType("numeric")
-                        .HasColumnName("numeric(18,2)");
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("blocked_balance");
 
                     b.Property<string>("Currency")
                         .IsRequired()

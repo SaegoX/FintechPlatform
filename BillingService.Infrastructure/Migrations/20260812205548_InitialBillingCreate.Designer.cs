@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BillingService.Infrastructure.Migrations
 {
     [DbContext(typeof(BillingDbContext))]
-    [Migration("20260811225406_InitialBillingCreate")]
+    [Migration("20260812205548_InitialBillingCreate")]
     partial class InitialBillingCreate
     {
         /// <inheritdoc />
@@ -37,8 +37,8 @@ namespace BillingService.Infrastructure.Migrations
                         .HasColumnName("balance");
 
                     b.Property<decimal>("BlockedBalance")
-                        .HasColumnType("numeric")
-                        .HasColumnName("numeric(18,2)");
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("blocked_balance");
 
                     b.Property<string>("Currency")
                         .IsRequired()
