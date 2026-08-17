@@ -8,76 +8,69 @@ using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 using System.Globalization;
 
-namespace LoanService.API
+
+
+CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
+CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.InvariantCulture;
+
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+     {
+         options.JsonSerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase;
+     });
+
+builder.Services.AddOpenApi();
+
+var connectionString = builder.Configuration.GetConnectionString("PostgresConnection");
+
+builder.Services.AddDbContext<LoanDbContext>(options =>
+options.UseNpgsql(connectionString));
+
+builder.Services.AddScoped<IEventPublisher, MassTransitEventPublisher>();
+builder.Services.AddScoped<ILoanRepository, PostgresLoanRepository>();
+
+builder.Services.AddMediatR(cfg =>
+cfg.RegisterServicesFromAssembly(typeof(CreateLoanApplicationCommand).Assembly));
+
+builder.Services.AddMassTransit(x =>
 {
-    public class Program
+    x.UsingRabbitMq((context, cfg) =>
     {
-        public static async Task Main(string[] args)
+        cfg.Host("rabbitmq", "/", h =>
         {
-            CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
-            CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.InvariantCulture;
+            h.Username("fintech_rabbit");
+            h.Password("12356789");
+        });
+    });
+});
 
-            var builder = WebApplication.CreateBuilder(args);
+var app = builder.Build();
 
-            builder.Services.AddControllers()
-                .AddJsonOptions(options =>
-                 {
-                     options.JsonSerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase;
-                 });
+if (app.Environment.IsDevelopment())
+{
+    app.MapOpenApi();
 
-            builder.Services.AddOpenApi();
+    app.MapScalarApiReference();
+}
 
-            var connectionString = builder.Configuration.GetConnectionString("PostgresConnection");
+app.UseAuthorization();
+app.MapControllers();
 
-            builder.Services.AddDbContext<LoanDbContext>(options =>
-            options.UseNpgsql(connectionString));
-
-            builder.Services.AddScoped<IEventPublisher, MassTransitEventPublisher>();
-            builder.Services.AddScoped<ILoanRepository, PostgresLoanRepository>();
-
-            builder.Services.AddMediatR(cfg =>
-            cfg.RegisterServicesFromAssembly(typeof(CreateLoanApplicationCommand).Assembly));
-
-            builder.Services.AddMassTransit(x =>
-            {
-                x.UsingRabbitMq((context, cfg) =>
-                {
-                    cfg.Host("rabbitmq", "/", h =>
-                    {
-                        h.Username("fintech_rabbit");
-                        h.Password("12356789");
-                    });
-                });
-            });
-
-            var app = builder.Build();
-
-            if (app.Environment.IsDevelopment())
-            {
-                app.MapOpenApi();
-
-                app.MapScalarApiReference();
-            }
-
-            app.UseAuthorization();
-            app.MapControllers();
-
-            using (var scope = app.Services.CreateScope())
-            {
-                var services = scope.ServiceProvider;
-                try
-                {
-                    var context = services.GetRequiredService<LoanDbContext>();
-                    await context.Database.MigrateAsync();
-                }
-                catch (Exception ex)
-                {
-                    var logger = services.GetRequiredService<ILogger<Program>>();
-                    logger.LogError(ex, "Произошла ошибка при автоматическом накате миграций на Postgres.");
-                }
-
-                app.Run();
-            }
-        }
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var context = services.GetRequiredService<LoanDbContext>();
+        await context.Database.MigrateAsync();
     }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "Произошла ошибка при автоматическом накате миграций на Postgres.");
+    }
+
+    app.Run();
 }
