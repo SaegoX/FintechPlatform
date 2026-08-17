@@ -7,6 +7,7 @@ using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 using System.Globalization;
+using Microsoft.Extensions.Caching.StackExchangeRedis;
 
 namespace LoanService.API
 {
@@ -48,6 +49,12 @@ namespace LoanService.API
                         h.Password("12356789");
                     });
                 });
+            });
+
+            builder.Services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = builder.Configuration["REDIS_CONNECTION"] ?? "localhost:6379";
+                options.InstanceName = "LoanService_";
             });
 
             var app = builder.Build();
