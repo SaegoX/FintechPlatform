@@ -3,14 +3,14 @@
     <File Path=".env" />
     <File Path="docker-compose.yml" />
   </Folder>
-  <Project Path="E:/Programms/Visual Studio 2026/Visual Studio Projects/FintechPlatform/BillingService.API/BillingService.API.csproj" Id="cf18b245-133d-47c0-8bfd-9627511ef67b" />
-  <Project Path="E:/Programms/Visual Studio 2026/Visual Studio Projects/FintechPlatform/BillingService.Application/BillingService.Application.csproj" Id="c0c7df37-656b-4ba7-b55e-71563e17f32d" />
-  <Project Path="E:/Programms/Visual Studio 2026/Visual Studio Projects/FintechPlatform/BillingService.Domain/BillingService.Domain.csproj" Id="c264346a-6ed0-472b-a154-7accb4567c35" />
-  <Project Path="E:/Programms/Visual Studio 2026/Visual Studio Projects/FintechPlatform/BillingService.Infrastructure/BillingService.Infrastructure.csproj" Id="bb5339b1-a85b-4109-bcf4-57d4c45a98ce" />
-  <Project Path="E:/Programms/Visual Studio 2026/Visual Studio Projects/FintechPlatform/LoanService.API/LoanService.API.csproj" Id="63fb571f-a1eb-427e-afc9-1130371d8f43" />
-  <Project Path="E:/Programms/Visual Studio 2026/Visual Studio Projects/FintechPlatform/LoanService.Application/LoanService.Application.csproj" Id="f06981b0-81c4-48a9-a572-a281b034495c" />
-  <Project Path="E:/Programms/Visual Studio 2026/Visual Studio Projects/FintechPlatform/LoanService.Domain.Tests/LoanService.Domain.Tests.csproj" Id="a9b6e0bb-268e-4a37-bad3-c764da95ef1e" />
-  <Project Path="E:/Programms/Visual Studio 2026/Visual Studio Projects/FintechPlatform/LoanService.Domain/LoanService.Domain.csproj" />
-  <Project Path="E:/Programms/Visual Studio 2026/Visual Studio Projects/FintechPlatform/LoanService.Infrastructure/LoanService.Infrastructure.csproj" Id="956b365b-3f5d-4d4c-aa5b-00c860cd56ed" />
+  <Project Path="BillingService.API/BillingService.API.csproj" Id="cf18b245-133d-47c0-8bfd-9627511ef67b" />
+  <Project Path="BillingService.Application/BillingService.Application.csproj" Id="c0c7df37-656b-4ba7-b55e-71563e17f32d" />
+  <Project Path="BillingService.Domain/BillingService.Domain.csproj" Id="c264346a-6ed0-472b-a154-7accb4567c35" />
+  <Project Path="BillingService.Infrastructure/BillingService.Infrastructure.csproj" Id="bb5339b1-a85b-4109-bcf4-57d4c45a98ce" />
+  <Project Path="LoanService.API/LoanService.API.csproj" Id="63fb571f-a1eb-427e-afc9-1130371d8f43" />
+  <Project Path="LoanService.Application/LoanService.Application.csproj" Id="f06981b0-81c4-48a9-a572-a281b034495c" />
+  <Project Path="LoanService.Domain.Tests/LoanService.Domain.Tests.csproj" Id="a9b6e0bb-268e-4a37-bad3-c764da95ef1e" />
+  <Project Path="LoanService.Domain/LoanService.Domain.csproj" />
+  <Project Path="LoanService.Infrastructure/LoanService.Infrastructure.csproj" Id="956b365b-3f5d-4d4c-aa5b-00c860cd56ed" />
   <Project Path="FintechPlatform.Contracts/FintechPlatform.Contracts.csproj" Id="db6c3fba-31ee-4e15-aa0b-0eee774e2bd4" />
 </Solution>
