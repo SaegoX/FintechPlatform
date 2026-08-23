@@ -1,13 +1,13 @@
 using LoanService.Application.Common;
 using LoanService.Application.UseCases.LoanApplications;
 using LoanService.Infrastructure;
+using LoanService.Infrastructure.Caching;
 using LoanService.Infrastructure.Messaging;
 using LoanService.Infrastructure.Repositories;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 using System.Globalization;
-
 
 
 CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
@@ -45,6 +45,14 @@ builder.Services.AddMassTransit(x =>
         });
     });
 });
+
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = builder.Configuration["REDIS_CONNECTION"] ?? "redis:6379";
+    options.InstanceName = "LoanService_";
+});
+
+builder.Services.AddScoped<ICacheService, RedisCacheService>();
 
 var app = builder.Build();
 

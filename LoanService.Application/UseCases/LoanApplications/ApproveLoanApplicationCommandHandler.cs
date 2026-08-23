@@ -8,11 +8,16 @@ namespace LoanService.Application.UseCases.LoanApplications
     {
         private readonly ILoanRepository _loanRepository;
         private readonly IEventPublisher _eventPublisher;
+        private readonly ICacheService _cacheService;
 
-        public ApproveLoanApplicationCommandHandler(ILoanRepository loanRepository, IEventPublisher eventPublisher)
+        public ApproveLoanApplicationCommandHandler(
+            ILoanRepository loanRepository, 
+            IEventPublisher eventPublisher, 
+            ICacheService cacheService  )
         {
             _loanRepository = loanRepository;
             _eventPublisher = eventPublisher;
+            _cacheService = cacheService;
         }
 
         public async Task Handle(ApproveLoanApplicationCommand request, CancellationToken cancellationToken)
@@ -23,6 +28,9 @@ namespace LoanService.Application.UseCases.LoanApplications
             loanApplication.Approve();
 
             await _loanRepository.UpdateAsync(loanApplication, cancellationToken);
+
+            var cacheKey = $"loan_{request.LoanApplicationId}";
+            await _cacheService.RemoveAsync(cacheKey, cancellationToken);
 
             var integrationEvent = new LoanApprovedIntegrationEvent(
                 loanApplicationId: loanApplication.Id,
