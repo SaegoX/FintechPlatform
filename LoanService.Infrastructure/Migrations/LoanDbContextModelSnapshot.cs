@@ -53,6 +53,12 @@ namespace LoanService.Infrastructure.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("term_in_months");
 
+                    b.Property<uint>("Version")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
                     b.HasKey("Id");
 
                     b.ToTable("loan_applications", (string)null);

@@ -71,6 +71,10 @@ namespace LoanService.Infrastructure.Configurations
 
             builder.Ignore(l => l.DomainEvents);
 
+            builder.Property<uint>("Version")
+                .IsRowVersion()
+                .HasColumnName("xmin")
+                .HasColumnType("xid");
         }
     }
 }

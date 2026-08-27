@@ -1,9 +1,11 @@
+using FintechPlatform.Contracts.Protos;
 using LoanService.Application.Common;
 using LoanService.Application.UseCases.LoanApplications;
 using LoanService.Infrastructure;
 using LoanService.Infrastructure.Caching;
 using LoanService.Infrastructure.Messaging;
 using LoanService.Infrastructure.Repositories;
+using LoanService.Infrastructure.Services;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
@@ -53,6 +55,14 @@ builder.Services.AddStackExchangeRedisCache(options =>
 });
 
 builder.Services.AddScoped<ICacheService, RedisCacheService>();
+
+builder.Services.AddGrpcClient<WalletGrpcService.WalletGrpcServiceClient>(o =>
+{
+    var billingGrpcUrl = builder.Configuration["BILLING_GRPC_URL"] ?? "http://localhost:5001";
+    o.Address = new Uri(billingGrpcUrl);
+});
+
+builder.Services.AddScoped<IBillingServiceChannel, GrpcBillingServiceChannel>();
 
 var app = builder.Build();
 

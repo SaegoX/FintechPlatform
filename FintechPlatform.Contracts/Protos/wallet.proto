@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option csharp_namespace = "FintechPlatform.Contracts.Protos";
+
+package wallet;
+
+service WalletGrpcService {
+	rpc CheckWalletExists (CheckWalletRequest) returns (CheckWalletResponse);
+}
+
+message CheckWalletRequest {
+	string user_id = 1;
+}
+
+message CheckWalletResponse {
+	bool exists = 1;
+	string currency = 2;
+	double balance = 3;
+}
