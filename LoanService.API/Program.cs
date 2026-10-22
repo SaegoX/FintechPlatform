@@ -5,6 +5,7 @@ using LoanService.Infrastructure;
 using LoanService.Infrastructure.Caching;
 using LoanService.Infrastructure.Messaging;
 using LoanService.Infrastructure.Repositories;
+using LoanService.Infrastructure.Saga;
 using LoanService.Infrastructure.Services;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
@@ -38,6 +39,9 @@ cfg.RegisterServicesFromAssembly(typeof(CreateLoanApplicationCommand).Assembly))
 
 builder.Services.AddMassTransit(x =>
 {
+    x.AddSagaStateMachine<LoanIssuanceStateMachine, LoanIssuanceSagaState>()
+        .InMemoryRepository();
+
     x.UsingRabbitMq((context, cfg) =>
     {
         cfg.Host("rabbitmq", "/", h =>
@@ -45,8 +49,15 @@ builder.Services.AddMassTransit(x =>
             h.Username("fintech_rabbit");
             h.Password("12356789");
         });
+
+        cfg.ReceiveEndpoint("loan-issuance-saga-queue", e =>
+        {
+            e.ConfigureSaga<LoanIssuanceSagaState>(context);
+        });
     });
 });
+
+builder.Services.AddScoped<CheckWalletSagaActivity>();
 
 builder.Services.AddStackExchangeRedisCache(options =>
 {
@@ -58,11 +69,11 @@ builder.Services.AddScoped<ICacheService, RedisCacheService>();
 
 builder.Services.AddGrpcClient<WalletGrpcService.WalletGrpcServiceClient>(o =>
 {
-    var billingGrpcUrl = builder.Configuration["BILLING_GRPC_URL"] ?? "http://localhost:5001";
+    var billingGrpcUrl = builder.Configuration["BILLING_GRPC_URL"] ?? "http://billing-service-api:5001";
     o.Address = new Uri(billingGrpcUrl);
 });
 
-builder.Services.AddScoped<IBillingServiceChannel, GrpcBillingServiceChannel>();
+builder.Services.AddTransient<IBillingServiceChannel, GrpcBillingServiceChannel>();
 
 var app = builder.Build();
 

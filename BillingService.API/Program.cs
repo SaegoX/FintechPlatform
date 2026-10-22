@@ -3,6 +3,7 @@ using BillingService.Application.Consumers;
 using BillingService.Infrastructure;
 using BillingService.Infrastructure.Messaging;
 using BillingService.Infrastructure.Repositories;
+using BillingService.Infrastructure.Services;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
@@ -15,9 +16,24 @@ CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.InvariantCulture;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.ListenAnyIP(8080, listenOptions =>
+    {
+        listenOptions.Protocols = Microsoft.AspNetCore.Server.Kestrel.Core.HttpProtocols.Http1;
+    });
+
+    options.ListenAnyIP(5001, listenOptions =>
+    {
+        listenOptions.Protocols = Microsoft.AspNetCore.Server.Kestrel.Core.HttpProtocols.Http2;
+    });
+});
+
 builder.Services.AddControllers();
 builder.Services.AddAuthorization();
 builder.Services.AddOpenApi();
+
+builder.Services.AddGrpc();
 
 var connectionString = builder.Configuration.GetConnectionString("BillingPostgresConnection");
 builder.Services.AddDbContext<BillingDbContext>(options =>
@@ -68,5 +84,7 @@ using (var scope = app.Services.CreateScope())
 
 app.UseAuthorization();
 app.MapControllers();
+
+app.MapGrpcService<WalletGrpcServer>().RequireHost("*:5001");
 
 app.Run();

@@ -8,16 +8,14 @@ namespace LoanService.Infrastructure.Saga
     public class LoanIssuanceStateMachine : MassTransitStateMachine<LoanIssuanceSagaState>
     {
         private readonly ILogger<LoanIssuanceStateMachine> _logger;
-        private readonly IBillingServiceChannel _billingChannel;
 
-        public Event<LoanApprovedIntegrationEvent> LoanApproved { get; private set; }
+        public Event<LoanApprovedIntegrationEvent> LoanApproved { get; private set; } = null!;
 
-        public State CheckingWallet { get; private set; }
-        public State Completed { get; private set; }
-        public State Field { get; private set; }
+        public State CheckingWallet { get; private set; } = null!;
+        public State Completed { get; private set; } = null!;
+        public State Failed { get; private set; } = null!;  
         public LoanIssuanceStateMachine(IBillingServiceChannel billingChannel, ILogger<LoanIssuanceStateMachine> logger)
         {
-            _billingChannel = billingChannel;
             _logger = logger;
 
             InstanceState(x => x.CurrentState);

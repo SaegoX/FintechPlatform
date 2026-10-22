@@ -9,6 +9,7 @@ services:
     environment:
       - ConnectionStrings__PostgresConnection=${LOAN_DB_CONNECTION_STRING}
       - ASPNETCORE_ENVIRONMENT=Development
+      - BILLING_GRPC_URL=http://billing-service-api:5001
     depends_on:
       loan_db:
         condition: service_healthy
@@ -20,6 +21,7 @@ services:
       dockerfile: BillingService.API/Dockerfile
     ports:
       - "7110:8080"
+      - "5001:5001"
     environment:
       - ConnectionString_BillingPostgresConnection=${BILLING_DB_CONNECTION_STRING}
       - RABBITMQ_CONNECTION=${RABBITMQ_CONNECTION}
